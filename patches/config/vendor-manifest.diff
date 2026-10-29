@@ -1,0 +1,68 @@
+--- a/manifest.xml
++++ b/manifest.xml
+@@ -26,7 +26,7 @@
+         radio_manifest_ds.xml
+         manifest_chip.xml
+ -->
+-<manifest version="2.0" type="device" target-level="4">
++<manifest version="2.0" type="device" target-level="5">
+     <hal format="hidl">
+         <name>android.hardware.audio</name>
+         <transport>hwbinder</transport>
+@@ -87,16 +87,6 @@
+         </interface>
+         <fqname>@2.6::ICameraProvider/legacy/0</fqname>
+     </hal>
+-    <hal format="hidl">
+-        <name>android.hardware.configstore</name>
+-        <transport>hwbinder</transport>
+-        <version>1.1</version>
+-        <interface>
+-            <name>ISurfaceFlingerConfigs</name>
+-            <instance>default</instance>
+-        </interface>
+-        <fqname>@1.1::ISurfaceFlingerConfigs/default</fqname>
+-    </hal>
+     <hal format="hidl" override="true">
+         <name>android.hardware.gatekeeper</name>
+         <transport>hwbinder</transport>
+@@ -204,16 +194,6 @@
+         <fqname>@1.0::IOffloadControl/default</fqname>
+     </hal>
+     <hal format="hidl">
+-        <name>android.hardware.vibrator</name>
+-        <transport>hwbinder</transport>
+-        <version>1.3</version>
+-        <interface>
+-            <name>IVibrator</name>
+-            <instance>default</instance>
+-        </interface>
+-        <fqname>@1.3::IVibrator/default</fqname>
+-    </hal>
+-    <hal format="hidl">
+         <name>com.qualcomm.qti.ant</name>
+         <transport>hwbinder</transport>
+         <version>1.0</version>
+@@ -651,16 +631,6 @@
+         <fqname>@2.0::ISehUcm/default</fqname>
+     </hal>
+     <hal format="hidl">
+-        <name>vendor.samsung.hardware.vibrator</name>
+-        <transport>hwbinder</transport>
+-        <version>2.2</version>
+-        <interface>
+-            <name>ISehVibrator</name>
+-            <instance>default</instance>
+-        </interface>
+-        <fqname>@2.2::ISehVibrator/default</fqname>
+-    </hal>
+-    <hal format="hidl">
+         <name>vendor.samsung.hardware.wifi.supplicant</name>
+         <transport>hwbinder</transport>
+         <version>3.1</version>
+@@ -673,4 +643,5 @@
+     <sepolicy>
+         <version>30.0</version>
+     </sepolicy>
++    <kernel target-level="5"/>
+ </manifest>

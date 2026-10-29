@@ -1,0 +1,12 @@
+One UI 8.5 port for Samsung Galaxy A71 4G (SM-A715F)
+Port by saantiqz, built with the help of Claude (an AI assistant made by Anthropic).
+This ROM is not affiliated with or endorsed by Samsung or Anthropic.
+
+One UI is Samsung's software. This is an unofficial, non-commercial port.
+Use at your own risk. Not affiliated with Samsung.
+
+Kernel: Paradigm by pascua28 (GPL-2.0)
+  Source code: https://github.com/pascua28/android_kernel_samsung_sm7150
+
+Thanks to the UN1CA project, whose public work was used as a reference.
+Made with the help of Claude by Anthropic.

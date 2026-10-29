@@ -1,0 +1,77 @@
+#!/system/bin/sh
+# One UI 8.5 port for Galaxy A71 4G (SM-A715F) - installer
+OUTFD=/proc/self/fd/$2; ZIPFILE="$3"
+ui_print() { printf 'ui_print %s\nui_print\n' "$1" >> $OUTFD; }
+set_progress() { echo "set_progress $1" >> $OUTFD; }
+STARTED=0
+abort() { ui_print " "; ui_print "!!! $1"
+  [ $STARTED = 0 ] && ui_print "!!! Nothing was written to your phone." || ui_print "!!! Do NOT reboot. Flash this zip again."
+  umount /data 2>/dev/null; exit 1; }
+SUPER=/dev/block/by-name/super; BOOT=/dev/block/by-name/boot; DTBO=/dev/block/by-name/dtbo
+CH=16   # chunk = 16 x 4 MiB = 64 MiB
+
+ui_print "=========================================="
+ui_print "   One UI 8.5 for Galaxy A71 4G (SM-A715F)"
+ui_print "   v1.0 - Built by saantiqz,"
+ui_print "   with the help of Claude by Anthropic."
+ui_print "=========================================="
+set_progress 0.01
+
+# 1. device + partition checks
+BL=$(getprop ro.boot.bootloader); DEV=$(getprop ro.product.device)
+case "$BL" in A715F*) ;; *) [ "$DEV" = "a71" ] || abort "Wrong device (${BL:-?} / ${DEV:-?}). This ROM is only for SM-A715F.";; esac
+SZ=$(blockdev --getsize64 $SUPER 2>/dev/null)
+[ "$SZ" = "8053063680" ] || abort "Unexpected super partition size (${SZ:-unknown})."
+ui_print "- Device: SM-A715F, super partition OK"
+
+# 2. data state (decided BEFORE writing anything)
+for m in /system_root /system /vendor /product /odm; do umount $m 2>/dev/null; done
+mount /metadata 2>/dev/null
+grep -q " /data " /proc/mounts || mount /data 2>/dev/null
+if grep -q " /data " /proc/mounts; then
+  if [ -d /data/system ]; then
+    abort "Data from another ROM found. Wipe > Format Data (type yes), reboot to recovery, then flash again."
+  fi
+  MODE=fresh; ui_print "- Fresh install (formatted data)"
+else
+  MODE=update; ui_print "- Encrypted data found: updating, your data is kept"
+  ui_print "  (coming from another ROM? Format Data and flash again)"
+fi
+
+# 3. system (super) with progress + per-chunk verification
+unzip -p "$ZIPFILE" super/manifest.txt > /tmp/manifest || abort "Cannot read the zip (re-download it)."
+TOTAL=$(grep -c . /tmp/manifest); N=0; NEXT=10
+ui_print "- Installing system ($TOTAL parts)..."
+STARTED=1
+while read IDX TYPE SHA; do
+  if [ "$TYPE" = D ]; then
+    F=$(printf 'super/%03d.bin' $IDX)
+    unzip -p "$ZIPFILE" "$F" | dd of=$SUPER bs=4194304 seek=$((IDX*CH)) conv=notrunc 2>/dev/null || abort "Write failed at part $IDX."
+    H=$(dd if=$SUPER bs=4194304 skip=$((IDX*CH)) count=$CH 2>/dev/null | sha256sum | cut -d' ' -f1)
+    [ "$H" = "$SHA" ] || abort "Verification failed at part $IDX."
+  else
+    dd if=/dev/zero of=$SUPER bs=4194304 seek=$((IDX*CH)) count=$CH conv=notrunc 2>/dev/null || abort "Write failed at part $IDX."
+  fi
+  N=$((N+1)); PM=$((50 + 850*N/TOTAL)); set_progress 0.$(printf '%03d' $PM)
+  PCT=$((N*100/TOTAL)); [ $PCT -ge $NEXT ] && { ui_print "  $PCT%"; NEXT=$((NEXT+10)); }
+done < /tmp/manifest
+sync
+
+# 4. kernel (Paradigm, no root)
+ui_print "- Installing kernel (Paradigm)..."
+for P in boot dtbo; do
+  unzip -p "$ZIPFILE" kernel/$P.sha > /tmp/$P.sha; read LEN SHA < /tmp/$P.sha
+  [ $P = boot ] && T=$BOOT || T=$DTBO
+  unzip -p "$ZIPFILE" kernel/$P.img | dd of=$T bs=4194304 conv=notrunc 2>/dev/null || abort "$P write failed."
+  H=$(head -c $LEN $T | sha256sum | cut -d' ' -f1); [ "$H" = "$SHA" ] || abort "$P verification failed."
+done
+set_progress 0.950
+
+# 5. finish
+if [ $MODE = fresh ]; then rm -rf /metadata/vold/metadata_encryption; ui_print "- Encryption keys reset for the fresh install"; fi
+umount /data 2>/dev/null; sync
+set_progress 1.000
+ui_print " "
+ui_print "Done! Reboot to System."
+ui_print "The first boot can take 5-10 minutes."
+exit 0

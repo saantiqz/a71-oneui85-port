@@ -1,0 +1,16 @@
+*.pk8
+*.key
+*.pem
+*.x509*
+*.cert.hex
+keys/
+*.img
+*.zip
+*.apk
+*.jar
+*.tar*
+*.dex
+*.odex
+*.vdex
+backup/
+logs/

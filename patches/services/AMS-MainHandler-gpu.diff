@@ -1,0 +1,32 @@
+--- a/ActivityManagerService$MainHandler$1.smali
++++ b/ActivityManagerService$MainHandler$1.smali
+@@ -2346,12 +2346,12 @@
+     .line 1163
+     :cond_1e
+     :goto_d
+-    invoke-static {}, Landroid/os/Debug;->getGpuTotalUsageKb()J
++    const-wide/16 v13, -0x1
+ 
+     .line 1164
+     .line 1165
+     .line 1166
+-    move-result-wide v13
++
+ 
+     .line 1167
+     cmp-long v5, v13, v17
+@@ -2362,12 +2362,12 @@
+ 
+     .line 1170
+     .line 1171
+-    invoke-static {}, Landroid/os/Debug;->getGpuPrivateMemoryKb()J
++    const-wide/16 v19, -0x1
+ 
+     .line 1172
+     .line 1173
+     .line 1174
+-    move-result-wide v19
++
+ 
+     .line 1175
+     cmp-long v5, v19, v17

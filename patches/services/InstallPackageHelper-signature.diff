@@ -1,0 +1,110 @@
+--- a/InstallPackageHelper.smali
++++ b/InstallPackageHelper.smali
+@@ -40,12 +40,16 @@
+ 
+ 
+ # direct methods
++.field public static sA71Self:Lcom/android/server/pm/InstallPackageHelper;
++
+ .method public constructor <init>(Lcom/android/server/pm/PackageManagerService;Lcom/android/server/pm/AppDataHelper;Lcom/android/server/pm/RemovePackageHelper;Lcom/android/server/pm/DeletePackageHelper;Lcom/android/server/pm/BroadcastHelper;)V
+     .locals 2
+ 
+     .line 1
+     invoke-direct {p0}, Ljava/lang/Object;-><init>()V
+ 
++    sput-object p0, Lcom/android/server/pm/InstallPackageHelper;->sA71Self:Lcom/android/server/pm/InstallPackageHelper;
++
+     .line 2
+     .line 3
+     .line 4
+@@ -29993,6 +29997,10 @@
+     :goto_18
+     invoke-interface {v3, v4}, Lcom/android/internal/pm/parsing/pkg/ParsedPackage;->setSigningDetails(Landroid/content/pm/SigningDetails;)Lcom/android/internal/pm/parsing/pkg/ParsedPackage;
+ 
++    move-object/from16 v0, p0
++
++    invoke-static {v3, v0}, Lcom/android/server/pm/InstallPackageHelper;->a71CustomSign(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;Lcom/android/server/pm/InstallPackageHelper;)V
++
+     .line 595
+     .line 596
+     .line 597
+@@ -30042,6 +30050,10 @@
+     .line 618
+     invoke-interface {v3, v0}, Lcom/android/internal/pm/parsing/pkg/ParsedPackage;->setSigningDetails(Landroid/content/pm/SigningDetails;)Lcom/android/internal/pm/parsing/pkg/ParsedPackage;
+ 
++    move-object/from16 v0, p0
++
++    invoke-static {v3, v0}, Lcom/android/server/pm/InstallPackageHelper;->a71CustomSign(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;Lcom/android/server/pm/InstallPackageHelper;)V
++
+     .line 619
+     .line 620
+     .line 621
+@@ -43454,6 +43466,8 @@
+     .line 739
+     .line 740
+     .line 741
++    invoke-static {v1}, Lcom/android/server/pm/InstallPackageHelper;->a71CustomSignP(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;)V
++
+     move-object/from16 v12, v33
+ 
+     .line 742
+@@ -45402,3 +45416,59 @@
+     .line 343
+     throw v0
+ .end method
++
++.method public static a71CustomSign(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;Lcom/android/server/pm/InstallPackageHelper;)V
++    .locals 6
++
++    :try_start_a71
++    if-eqz p0, :done_a71
++    if-eqz p1, :done_a71
++    iget-object v0, p1, Lcom/android/server/pm/InstallPackageHelper;->mPm:Lcom/android/server/pm/PackageManagerService;
++    if-eqz v0, :done_a71
++    iget-object v0, v0, Lcom/android/server/pm/PackageManagerService;->mPlatformPackage:Lcom/android/server/pm/pkg/AndroidPackage;
++    if-eqz v0, :done_a71
++    invoke-interface {p0}, Lcom/android/internal/pm/parsing/pkg/ParsedPackage;->getSigningDetails()Landroid/content/pm/SigningDetails;
++    move-result-object v1
++    if-eqz v1, :done_a71
++    invoke-virtual {v1}, Landroid/content/pm/SigningDetails;->getSignatures()[Landroid/content/pm/Signature;
++    move-result-object v1
++    if-eqz v1, :done_a71
++    const/4 v3, 0x1
++    new-array v2, v3, [Landroid/content/pm/Signature;
++    new-instance v3, Landroid/content/pm/Signature;
++    const-string v4, "308203573082023fa0030201020214177a6743ec5d78a83e9f386f49f64109cab5fbec300d06092a864886f70d01010b0500303a310b30090603550406130243523110300e060355040a0c07613731706f72743119301706035504030c10613731706f727420706c6174666f726d3020170d3236313032393031303235395a180f32303534303331363031303235395a303a310b30090603550406130243523110300e060355040a0c07613731706f72743119301706035504030c10613731706f727420706c6174666f726d30820122300d06092a864886f70d01010105000382010f003082010a02820101009807093a42063d083316e4e71d699a1a6aff989e521d86ec8d5a59c1328e74be9d51e98bb5bb85e2229e0b983ea17537d0578328f098468e8cd85df3bf4fc0d679750471b9fa9cad55980b6c217efac1c480b42e6687d1937ab629d59d84973a423c5d99cbf3f84606966496031670d326215a568504988ff16be0dac95e77f6d9caf62f017e92739a5a28291ff698f3e85d5b0d434d5487695dce30eac454c215ecee034fa2c329d1bf213c94f4ab09d98124118ae4e44b4b228e66595f2f74c3380a6d5c49ceb3cd051280bff9fb6c04b3f74e05f6ec8aa9d8e69975b3d6c3e0ffc6c13490aa652f1a28fcb0d2704f73807bcc3f61109722c814dfc6e5995b0203010001a3533051301d0603551d0e041604141695011d80c7c6e53f21a58db7f8b11ab3f481cc301f0603551d230418301680141695011d80c7c6e53f21a58db7f8b11ab3f481cc300f0603551d130101ff040530030101ff300d06092a864886f70d01010b0500038201010076505873095835227d2b9aa9018cc5cb43365aa704168bf50d5b74f438ba80c8192bae83ec3a7fdff7da2d1009be273685cc8951d5636c7c1e3fc3616535602b5df20fff01890e08072dcb570f6bb193bebd033fced33d7641389c8b6be1e59d14bb297a77b932dfaaa114b44941fc0f5afe1486de1379480a1a37bff350f1d87445fde98c086e62751c0e83ddfe38b73568f4dd0e21763c9fb044cedcec287db233af266d99dd0a79fd26365ee79c73f5cfa4d9c10fdfe9c21ab5f6f51b89cefd0b07764073e544d83b86ec0079a8831c2c01ba2bfe2591d4a0b7d32456c139cd4ab72d1d4840c292fdd240bd8bc585eb09024b931ee6fc081dfa961cb2d189"
++    invoke-direct {v3, v4}, Landroid/content/pm/Signature;-><init>(Ljava/lang/String;)V
++    const/4 v4, 0x0
++    aput-object v3, v2, v4
++    invoke-static {v2, v1}, Lcom/android/server/pm/PackageManagerServiceUtils;->compareSignatureArrays([Landroid/content/pm/Signature;[Landroid/content/pm/Signature;)I
++    move-result v3
++    if-nez v3, :done_a71
++    invoke-interface {v0}, Lcom/android/server/pm/pkg/AndroidPackage;->getSigningDetails()Landroid/content/pm/SigningDetails;
++    move-result-object v3
++    if-eqz v3, :done_a71
++    invoke-interface {p0, v3}, Lcom/android/internal/pm/parsing/pkg/ParsedPackage;->setSigningDetails(Landroid/content/pm/SigningDetails;)Lcom/android/internal/pm/parsing/pkg/ParsedPackage;
++    const/4 v4, 0x1
++    invoke-interface {p0, v4}, Lcom/android/internal/pm/parsing/pkg/ParsedPackage;->setSignedWithPlatformKey(Z)Lcom/android/internal/pm/parsing/pkg/ParsedPackage;
++    const-string v4, "A71Port"
++    const-string v5, "custom platform signature accepted"
++    invoke-static {v4, v5}, Landroid/util/Log;->i(Ljava/lang/String;Ljava/lang/String;)I
++    :try_end_a71
++    .catch Ljava/lang/Throwable; {:try_start_a71 .. :try_end_a71} :catch_a71
++
++    :done_a71
++    return-void
++
++    :catch_a71
++    return-void
++.end method
++
++
++.method public static a71CustomSignP(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;)V
++    .locals 1
++
++    sget-object v0, Lcom/android/server/pm/InstallPackageHelper;->sA71Self:Lcom/android/server/pm/InstallPackageHelper;
++
++    invoke-static {p0, v0}, Lcom/android/server/pm/InstallPackageHelper;->a71CustomSign(Lcom/android/internal/pm/parsing/pkg/ParsedPackage;Lcom/android/server/pm/InstallPackageHelper;)V
++
++    return-void
++.end method
