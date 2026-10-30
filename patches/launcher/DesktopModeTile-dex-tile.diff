@@ -1,0 +1,56 @@
+--- a/DesktopModeTile.smali
++++ b/DesktopModeTile.smali
+@@ -1431,7 +1431,7 @@
+ 
+     const/4 v3, 0x1
+ 
+-    if-nez v0, :cond_2
++    goto :cond_2
+ 
+     sget-object v0, Lw3/a;->c:Lw3/a;
+ 
+@@ -1494,9 +1494,16 @@
+ 
+     move-result-object v0
+ 
+-    invoke-interface {v0}, Lcom/honeyspace/common/interfaces/CombinedDexInfo;->isInternalDex()Z
+-
++    :try_start_a71
++    iget-object v0, p0, Lcom/honeyspace/dexservice/DesktopModeTile;->desktopMode:LZ/e;
++    invoke-interface {v0}, LZ/e;->F()Z
+     move-result v0
++    :try_end_a71
++    .catch Ljava/lang/Throwable; {:try_start_a71 .. :try_end_a71} :catch_a71
++    goto :goto_a71
++    :catch_a71
++    const/4 v0, 0x0
++    :goto_a71
+ 
+     invoke-virtual {p0, v0, v1, v1}, Lcom/honeyspace/dexservice/DesktopModeTile;->h(ZZZ)V
+ 
+@@ -1605,6 +1612,16 @@
+ 
+     invoke-static {p0, v0}, Lcom/honeyspace/common/log/LogTagBuildersKt;->info(Lcom/honeyspace/common/log/LogTag;Ljava/lang/String;)V
+ 
++    :try_start_b71
++    iget-object v0, p0, Lcom/honeyspace/dexservice/DesktopModeTile;->desktopMode:LZ/e;
++    invoke-interface {v0}, LZ/e;->F()Z
++    move-result v0
++    const/4 v1, 0x0
++    invoke-virtual {p0, v0, v1, v1}, Lcom/honeyspace/dexservice/DesktopModeTile;->h(ZZZ)V
++    :try_end_b71
++    .catch Ljava/lang/Throwable; {:try_start_b71 .. :try_end_b71} :catch_b71
++    :catch_b71
++
+     iget-object v0, p0, Lcom/honeyspace/dexservice/DesktopModeTile;->h:Lkotlinx/coroutines/CoroutineScope;
+ 
+     if-eqz v0, :cond_0
+@@ -1652,7 +1669,7 @@
+ 
+     move-result p0
+ 
+-    if-eqz p0, :cond_0
++    # A71 port: always open DeX settings on long press
+ 
+     new-instance p0, Landroid/content/Intent;
+ 

@@ -1,0 +1,8 @@
+# Appended to /system/etc/init/hw/init.rc (v1.0.1)
+# The A71's CamX HAL turns the torch on by writing /sys/class/camera/flash/rear_flash.
+# The S23 FE init.rc doesn't hand that node to the camera service, so the flashlight tile did nothing.
+
+# A71 port: give the camera HAL access to the flashlight
+on boot
+    chown cameraserver camera /sys/class/camera/flash/rear_flash
+    chmod 0660 /sys/class/camera/flash/rear_flash

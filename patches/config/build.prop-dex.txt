@@ -1,0 +1,5 @@
+# Appended to /system/build.prop (v1.0.1)
+# Android 16 marks the A71 as "desktop ineligible"; this lets Samsung DeX / desktop mode start.
+
+# A71 port: allow DeX / desktop mode
+persist.wm.debug.desktop_mode_enforce_device_restrictions=false

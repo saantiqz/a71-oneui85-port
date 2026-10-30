@@ -1,0 +1,11 @@
+--- a/DexModePreferenceController.smali
++++ b/DexModePreferenceController.smali
+@@ -358,7 +358,7 @@
+     move-result v0
+ 
+     .line 25
+-    if-nez v0, :cond_1
++    goto :cond_1
+ 
+     .line 26
+     .line 27
