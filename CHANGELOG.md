@@ -12,6 +12,7 @@
 - Samsung DeX / desktop mode enabled (experimental): `persist.wm.debug.desktop_mode_enforce_device_restrictions=false` (`patches/config/build.prop-dex.txt`). Works on external displays (tested via scrcpy `--new-display`); the tile also enables a basic desktop on the phone screen
 
 ### Other
+- Installer: recognizes an update over v1.0 in recoveries that can mount encrypted data (OrangeFox), by checking the installed system
 - Port Version row in Settings shows 1.0.1
 - `scripts/check_v101.sh`: pre-build check that every v1.0.1 change is in the port tree
 
@@ -19,6 +20,7 @@
 - Wireless DeX to a TV untested; no "phone as touchpad" in this firmware
 - DeX on the phone screen has no taskbar
 - Some non-US carriers need their APN added manually
+- ADB Sideload doesn't work with some TWRP builds (phone drops off USB); OrangeFox works
 
 ## v1.0
 - First public release
