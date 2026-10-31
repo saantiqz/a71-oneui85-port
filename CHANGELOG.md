@@ -1,5 +1,20 @@
 # Changelog
 
+## v1.0.2 (2026-10-30)
+
+### Fixes
+- Camera: photos save again from all cameras. The camera crashed after taking a photo (ImageCodecDummyNode) because `image_codec.samsung.v2` was missing from the camera feature list (`patches/config/floating_feature-image_codec.txt`)
+- NFC: Settings no longer crashes when opening NFC. The S23 FE Settings hardcodes antenna position 1, the A71 reports 2 (`patches/settings/NfcSettings-antenna-position.diff`, `patches/settings/NfcAntennaGuideDialog-antenna-position.diff`)
+- Lock screen camera shortcut shows the white themed icon instead of the colored app icon (`patches/camera/SamsungCamera-keyguard-shortcut-icon.diff`)
+- adb: USB debugging keeps working after a reboot. A failed Android 16 trade-in mode activation set `persist.adb.tradeinmode=-1`, which stopped adbd on every boot; it is now reset instead (`patches/config/tradeinmode.rc.diff`)
+
+### Other
+- Debug logging from v1.0 turned off (`patches/config/build.prop-v1.0.2-logging.txt`)
+- Port Version in Settings and the installer show 1.0.2
+
+### Notes
+- PIN auto-confirm needs a PIN of 6+ digits (Android rule, not a bug)
+
 ## v1.0.1 (2026-10-29)
 
 ### Fixes

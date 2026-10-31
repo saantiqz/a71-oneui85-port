@@ -1,0 +1,11 @@
+--- a/tradeinmode.rc
++++ b/tradeinmode.rc
+@@ -5,4 +5,5 @@
+ # On user builds, however, we don't want adbd to accidentally fall back, so
+ # we explicitly stop adbd on failure.
+ on property:persist.adb.tradeinmode=-1 && property:ro.debuggable=0
+-    stop adbd
+\ No newline at end of file
++    # A71 port: trade-in mode cannot activate on this port; reset instead of stopping adbd
++    setprop persist.adb.tradeinmode 0
+\ No newline at end of file

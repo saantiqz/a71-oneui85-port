@@ -1,0 +1,11 @@
+--- a/AndroidManifest.xml
++++ b/AndroidManifest.xml
+@@ -233,6 +233,8 @@
+             <meta-data android:name="android.appwidget.provider" android:resource="@xml/camera_widget_info"/>
+         </receiver>
+         <activity android:clearTaskOnLaunch="true" android:configChanges="mcc|mnc|keyboard|keyboardHidden|navigation|orientation|screenLayout|uiMode|screenSize|smallestScreenSize|density" android:exported="true" android:icon="@drawable/ic_launcher" android:label="@string/camera_label" android:launchMode="standard" android:name="com.sec.android.app.camera.Camera" android:screenOrientation="sensor" android:showWhenLocked="true" android:taskAffinity="android.task.camera" android:theme="@style/AppCompat.ListTheme.FullScreen.Black" android:visibleToInstantApps="true" android:windowSoftInputMode="adjustNothing">
++            <meta-data android:name="com.samsung.keyguard.shortcut.icon" android:resource="@drawable/ic_camera_mono"/>
++            <meta-data android:name="com.sec.android.app.launcher.icon_theme" android:value="themeColor"/>
+             <layout android:minHeight="@dimen/window_min_height" android:minWidth="@dimen/window_min_width"/>
+             <meta-data android:name="assistant" android:resource="@xml/assistant"/>
+             <meta-data android:name="com.samsung.android.allow_seamless_rotation" android:value="true"/>

@@ -1,0 +1,4 @@
+# v1.0.2: removed from /system/build.prop (debug leftovers from v1.0)
+# Samsung's normal persist.log.semlevel=0xFFFFFF00 applies again.
+ro.logd.kernel=true
+persist.log.semlevel=0xFFFFFFFF

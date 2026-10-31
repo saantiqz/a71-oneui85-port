@@ -1,0 +1,11 @@
+--- a/NfcSettings.smali
++++ b/NfcSettings.smali
+@@ -3744,7 +3744,7 @@
+     .line 394
+     .line 395
+     :goto_3
+-    const-string v1, "1"
++    const-string v1, "2"
+ 
+     .line 396
+     .line 397

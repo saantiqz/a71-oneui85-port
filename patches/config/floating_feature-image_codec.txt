@@ -1,0 +1,3 @@
+# v1.0.2: added to SEC_FLOATING_FEATURE_CAMERA_CONFIG_VENDOR_LIB_INFO in /system/etc/floating_feature.xml
+# Without it the camera falls back to ImageCodecDummyNode and crashes when saving photos.
+,image_codec.samsung.v2

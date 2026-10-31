@@ -12,7 +12,7 @@ CH=16   # chunk = 16 x 4 MiB = 64 MiB
 
 ui_print "=========================================="
 ui_print "   One UI 8.5 for Galaxy A71 4G (SM-A715F)"
-ui_print "   v1.0.1 - Built by saantiqz,"
+ui_print "   v1.0.2 - Built by saantiqz,"
 ui_print "   with the help of Claude by Anthropic."
 ui_print "=========================================="
 set_progress 0.01
